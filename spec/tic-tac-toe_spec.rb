@@ -1,4 +1,4 @@
-require_relative '../lib/tic-tac-toe.rb'
+require_relative '../lib/tic-tac-toe'
 
 describe Game do
     it "has a passing test" do
