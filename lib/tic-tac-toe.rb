@@ -1,2 +1,1 @@
-class Game
-end
+puts "Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)"
