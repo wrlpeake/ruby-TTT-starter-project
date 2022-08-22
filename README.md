@@ -7,8 +7,9 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 1. Ensure Ruby is installed on your machine with a package manager of your choice
 1. Run `bundle install`
 
-# How to Play
+## How to Play
 
+1. Start the game by running `ruby tic-tac-toe.rb` from your command line while you are inside the directory
 
 ## Testing
 
