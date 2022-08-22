@@ -1,7 +1,14 @@
 require_relative '../lib/tic-tac-toe'
 
 describe Game do
+
     it "has a passing test" do
-        expect(true).to equal true
+        testGame = Game.new
+        expect(true).to be true
     end
-end
+
+    it "should display a welcome message when the game is started" do
+        testGame = Game.new
+        expect(testGame.welcomeMessage).to eql "Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)"
+    end 
+end 
