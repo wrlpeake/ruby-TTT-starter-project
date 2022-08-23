@@ -1,5 +1,5 @@
 
-name: Ruby
+nname: Ruby
 
 on:
   push:
@@ -12,18 +12,17 @@ permissions:
 
 jobs:
   test:
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        ruby: ['2.7', '3.0', '3.1', head, jruby, jruby-head, truffleruby, truffleruby-head]
-    runs-on: ${{ matrix.os }}
+        ruby-version: ['2.7', '3.0', '3.1']
+
     steps:
     - uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby }}
+        ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - run: bundle exec rspec spec
-        
-    
+    - name: Run tests
+      run: bundle exec rspec spec
