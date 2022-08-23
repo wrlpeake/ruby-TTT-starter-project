@@ -1,9 +1,8 @@
 class Game
-    def welcomeMessage
+    def createWelcomeMessage
         message = "Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)"
-        return message
     end
 end
 
 newGame = Game.new
-puts newGame.welcomeMessage
+puts newGame.createWelcomeMessage
