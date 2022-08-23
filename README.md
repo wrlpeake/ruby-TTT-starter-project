@@ -13,5 +13,5 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 
 ## Testing
 
-1. Run `bundle exec rspec exec` for one run of the test suite
+1. Run `bundle exec rspec spec` for one run of the test suite
 2. Run `bundle exec guard` to start the test watcher
