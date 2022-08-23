@@ -1,5 +1,5 @@
 
-nname: Ruby
+name: Ruby
 
 on:
   push:
