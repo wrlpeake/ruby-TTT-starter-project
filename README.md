@@ -9,7 +9,7 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 
 ## How to Play
 
-1. Start the game by running `ruby lib/tic-tac-toe.rb` from your command line while you are inside the directory
+1. Start the game by running `ruby lib/tic_tac_toe.rb` from your command line while you are inside the directory
 
 ## Testing
 
