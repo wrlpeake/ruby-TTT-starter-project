@@ -9,9 +9,10 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 
 ## How to Play
 
-1. Start the game by running `ruby tic-tac-toe.rb` from your command line while you are inside the directory
+1. Start the game by running `ruby lib/tic-tac-toe.rb` from your command line while you are inside the directory
 
 ## Testing
 
-1. Run `bundle exec rspec spec` for one run of the test suite
+1. Run `bundle exec rspec` for one run of the test suite
 2. Run `bundle exec guard` to start the test watcher
+
