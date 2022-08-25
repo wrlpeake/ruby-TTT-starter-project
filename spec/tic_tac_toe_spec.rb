@@ -21,10 +21,6 @@ describe Game do
                                                     "Choose numbers 1-9 to select your spot on the board\n\n";
     end
 
-    it "should request an integer between 1-9 from the human player" do
-        
-
-    end
 end 
 
 
