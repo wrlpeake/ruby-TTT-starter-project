@@ -12,7 +12,7 @@ describe Game do
                                                     "The aim of the game is to get three of your symbol in a row, taking in turns to select your spot on a 3x3 board.\n\n" +
                                                     "Choose numbers 1-9 to select your spot on the board\n\n";
     end
-
+    
     it "should show the user a 3x3 board with numbers 1-9" do
         game_board = [[1, 2, 3],
                       [4, 5, 6],
