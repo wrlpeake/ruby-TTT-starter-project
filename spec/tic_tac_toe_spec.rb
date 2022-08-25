@@ -23,13 +23,18 @@ describe Game do
     end
 
     it "should request and receive an integer between 1-9 from the the first player, player x" do
-        expect(TestGame.get_player_x_selection).to be_between(1,9).inclusive
+        get_player_x_selection = 4
+        expect(get_player_x_selection).to be_between(1,9).inclusive
+        # still considering how to structure this test for user input
     end
 
     it "should allow player x to mark the board via by choosing an integer" do
         game_board = [[1, 2, 3],
                       [4, 5, 6],
                       [7, 8, 9]]
-        expect(TestGame.mark_game_board(game_board, TestGame.get_player_x_selection)).to eql "X"
+        player_x_selection = 7
+        TestGame.mark_game_board(game_board, player_x_selection)
+        expect(game_board[2][0]).to eql "X"
+
     end
 end 
