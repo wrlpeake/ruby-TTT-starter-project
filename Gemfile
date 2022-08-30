@@ -1,4 +1,5 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-gem "rspec"
-gem "guard-rspec"
+gem 'guard-rspec'
+gem 'rspec'
+gem 'rubocop', require: false
