@@ -16,3 +16,7 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 1. Run `bundle exec rspec` for one run of the test suite
 2. Run `bundle exec guard` to start the test watcher
 
+## Rubocop
+
+1. To run `rubocop` gem to as a linter and formatter, run 'rubocop' from the command line while inside the directory
+
