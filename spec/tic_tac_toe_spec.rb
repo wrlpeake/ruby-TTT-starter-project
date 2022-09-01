@@ -38,22 +38,22 @@ describe TicTacToe do
   it 'should request and receive an integer between 1-9 from the player' do
     # insert module to test user input here
     ttt = TicTacToe.new
-    which_player = 'X'
+    player = 'X'
     input = StringIO.new('7')
     $stdin = input
     $stdout = StringIO.new
 
-    player_selection = ttt.request_player_selection(which_player)
+    position = ttt.request_player_selection(player)
 
-    expect(player_selection).to eql 7
+    expect(position).to eql 7
   end
 
   it 'should allow player x to mark the board via by choosing an integer' do
     ttt = TicTacToe.new
 
-    player_selection = 7
-    which_player = 'X'
-    ttt.mark_game_board(which_player, player_selection)
+    position = 7
+    player = 'X'
+    ttt.mark_game_board(player, position)
 
     expect(ttt.get_game_board).to eql [1, 2, 3, 4, 5, 6, 'X', 8, 9]
   end
@@ -61,9 +61,9 @@ describe TicTacToe do
   it 'should allow player o to mark the board via by choosing an integer' do
     ttt = TicTacToe.new
 
-    player_selection = 5
-    which_player = 'O'
-    ttt.mark_game_board(which_player, player_selection)
+    position = 5
+    player = 'O'
+    ttt.mark_game_board(player, position)
 
     expect(ttt.get_game_board).to eql [1, 2, 3, 4, 'O', 6, 7, 8, 9]
   end
@@ -71,11 +71,11 @@ describe TicTacToe do
   it 'should not let a player choose a spot that has already been selected' do
     ttt = TicTacToe.new
 
-    player_selection = 6
-    which_player = 'O'
-    ttt.mark_game_board(which_player, player_selection)
+    position = 6
+    player = 'O'
+    ttt.mark_game_board(player, position)
 
-    expect(ttt.is_position_available?(player_selection)).to be false
+    expect(ttt.is_position_available?(position)).to be false
   end
 
   it 'position should not be available after being marked' do

@@ -32,27 +32,27 @@ class TicTacToe
     end
   end
 
-  def request_player_selection(which_player)
-    puts 'Player ' + which_player + ', please choose an integer between 1 and 9.'
-    player_selection = gets.to_i
-    if (player_selection >= 1 && player_selection <= 9) == false
+  def request_player_selection(player)
+    puts 'Player ' + player + ', please choose an integer between 1 and 9.'
+    position = gets.to_i
+    if (position >= 1 && position <= 9) == false
       puts 'Error: not an integer between 1 and 5. Please choose again.'
-      request_player_selection(which_player)
-    elsif is_position_available?(player_selection) == true
-      puts 'Player ' + which_player + ', has selected: ' + player_selection.to_s
-      player_selection
+      request_player_selection(player)
+    elsif is_position_available?(position) == true
+      puts 'Player ' + player + ', has selected: ' + position.to_s
+      position
     else
       puts 'Error: already selected. Please choose again.'
-      request_player_selection(which_player)
+      request_player_selection(player)
     end
   end
 
-  def is_position_available?(player_selection)
-    available_positions.include? player_selection
+  def is_position_available?(position)
+    available_positions.include? position
   end
 
-  def mark_game_board(which_player, player_selection)
-    @game_board[player_selection - 1] = if which_player == 'X'
+  def mark_game_board(player, position)
+    @game_board[position - 1] = if player == 'X'
                                           'X'
                                         else
                                           'O'
