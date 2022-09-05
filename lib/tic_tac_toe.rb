@@ -18,7 +18,7 @@ class TicTacToe
   def display_game_board
     horizontal_board_line = '---------'
     @game_board.each_index do |i|
-      if (i % 3) == 0
+      if (i % 3).zero?
         print @game_board[i]
       elsif (i % 3) == 1
         print ' | '
@@ -33,34 +33,30 @@ class TicTacToe
   end
 
   def request_player_selection(player)
-    puts 'Player ' + player + ', please choose an integer between 1 and 9.'
+    puts "Player #{player}, please choose an integer between 1 and 9."
     position = gets.to_i
     if (position >= 1 && position <= 9) == false
-      puts 'Error: not an integer between 1 and 5. Please choose again.'
+      puts 'Error: not an integer between 1 and 9. Please choose again.'
       request_player_selection(player)
-    elsif is_position_available?(position) == true
-      puts 'Player ' + player + ', has selected: ' + position.to_s
-      position
-    else
+    elsif position_available?(position) == false
       puts 'Error: already selected. Please choose again.'
       request_player_selection(player)
+    else
+      puts "Player #{player}, has selected: #{position}"
+      position
     end
   end
 
-  def is_position_available?(position)
-    available_positions.include? position
+  def position_available?(position)
+    get_available_positions.include? position
   end
 
   def mark_game_board(player, position)
-    @game_board[position - 1] = if player == 'X'
-                                          'X'
-                                        else
-                                          'O'
-                                        end
+    @game_board[position - 1] = player
   end
 
-  def available_positions
-    @game_board.select { |pos| pos != 'X' }
+  def get_available_positions
+    @game_board.reject { |pos| pos =~ /[XO]/ }
   end
 
   def get_game_board
