@@ -1,77 +1,65 @@
 # frozen_string_literal: true
 
 class TicTacToe
-  game_board = [[1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9]]
+  def initialize
+    @game_board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  end
 
   def display_welcome_message
-    message = 'Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)\n'
-    message
+    puts "Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)\n\n"
   end
 
   def display_instructions
-    instructions = "This is a two-player game. The first player will be the 'X' team, the second player will be 'O' team.\n\n" \
-                   "The aim of the game is to get three of your symbol in a row, taking in turns to select your spot on a 3x3 board.\n\n" \
-                   "Choose numbers 1-9 to select your spot on the board\n\n"
-    instructions
+    puts "This is a two-player game. The first player will be the 'X' team, the second player will be 'O' team.\n\n" \
+         "The aim of the game is to get three of your symbol in a row, taking in turns to select your spot on a 3x3 board.\n\n" \
+         "Choose numbers 1-9 to select your spot on the board\n\n"
   end
 
-  def display_game_board(game_board)
-    game_board
-  end
-
-  def request_player_x_selection
-    puts "Player 1 AKA 'X' - Choose an integer between 1-9 to place your 'X' on the board"
-    player_x_selection = gets.to_i
-    if !(player_x_selection >= 1 && player_x_selection <= 9)
-      get_player_x_selection
-    else
-      print 'Player X selected position: '
-      player_x_selection
+  def display_game_board
+    horizontal_board_line = '---------'
+    @game_board.each_index do |i|
+      if (i % 3).zero?
+        print @game_board[i]
+      elsif (i % 3) == 1
+        print ' | '
+        print @game_board[i]
+        print ' | '
+      elsif (i % 3) == 2
+        print @game_board[i]
+        print "\n"
+        puts horizontal_board_line
+      end
     end
   end
 
-  def mark_game_board(game_board, get_player_x_selection)
-    case get_player_x_selection
-    when 1
-      game_board[0][0] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[0][0]
-    when 2
-      game_board[0][1] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[0][1]
-    when 3
-      game_board[0][2] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[0][2]
-    when 4
-      game_board[1][0] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[1][0]
-    when 5
-      game_board[1][1] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[1][1]
-    when 6
-      game_board[1][2] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[1][2]
-    when 7
-      game_board[2][0] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[2][0]
-    when 8
-      game_board[2][1] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[2][1]
+  def request_player_selection(player)
+    puts "Player #{player}, please choose an integer between 1 and 9."
+    position = gets.to_i
+    if (position >= 1 && position <= 9) == false
+      puts 'Error: not an integer between 1 and 9. Please choose again.'
+      request_player_selection(player)
+    elsif position_available?(position) == false
+      puts 'Error: already selected. Please choose again.'
+      request_player_selection(player)
     else
-      get_player_x_selection == 9
-      game_board[2][2] = 'X'
-      puts game_board.to_a.map(&:inspect)
-      game_board[2][2]
+      puts "Player #{player}, has selected: #{position}"
+      position
     end
+  end
+
+  def position_available?(position)
+    get_available_positions.include? position
+  end
+
+  def mark_game_board(player, position)
+    @game_board[position - 1] = player
+  end
+
+  def get_available_positions
+    @game_board.reject { |pos| pos =~ /[XO]/ }
+  end
+
+  def get_game_board
+    @game_board
   end
 end
-
