@@ -33,16 +33,16 @@ class TicTacToe
   end
 
   def request_player_selection(player)
-    puts "Player #{player}, please choose an integer between 1 and 9."
+    puts "\nPlayer #{player}, please choose an integer between 1 and 9.\n"
     position = gets.to_i
     if (position >= 1 && position <= 9) == false
-      puts 'Error: not an integer between 1 and 9. Please choose again.'
+      puts "\nError: not an integer between 1 and 9. Please choose again\n."
       request_player_selection(player)
     elsif position_available?(position) == false
-      puts 'Error: already selected. Please choose again.'
+      puts "\nError: already selected. Please choose again.\n"
       request_player_selection(player)
     else
-      puts "Player #{player}, has selected: #{position}"
+      puts "\nPlayer #{player}, has selected: #{position}\n\n"
       position
     end
   end
@@ -64,21 +64,37 @@ class TicTacToe
   end
 
   def is_there_a_winner?
-    if check_board_horizontally?(@game_board) == true
-      puts 'Winner!'
+    if check_board_horizontally? == true
       true
+    else
+      check_board_vertically? == true
     end
   end
 
-  def check_board_horizontally?(board)
-    row_length = board.length / 3
-    row = board.each_slice(row_length).to_a
-    if row[0].uniq.size == 1
-      true
-    elsif row[1].uniq.size == 1
-      true
+  def end_game?
+    if is_there_a_winner? == true
+      puts "\nWinner! The game will now end. Thanks for playing.\n\n"
+      exit
     else
-      row[2].uniq.size == 1
+      false
     end
+  end
+
+  def check_board_horizontally?
+    row_length = Math.sqrt(@game_board.length)
+    row = @game_board.each_slice(row_length).to_a
+    row.each do |r|
+      return true if r.uniq.size == 1
+    end
+    false
+  end
+
+  def check_board_vertically?
+    column_amount = Math.sqrt(@game_board.length)
+    column = @game_board.group_by.with_index { |_, index| index % column_amount }.values
+    column.each do |c|
+      return true if c.uniq.size == 1
+    end
+    false
   end
 end
