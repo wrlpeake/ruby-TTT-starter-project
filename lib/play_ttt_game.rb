@@ -33,12 +33,17 @@ class PlayTTTGame
     make_player_o_turn
     # turn 3
     make_player_x_turn
+    GAME.is_there_a_winner?
     make_player_o_turn
+    GAME.is_there_a_winner?
     # turn 4
     make_player_x_turn
+    GAME.is_there_a_winner?
     make_player_o_turn
+    GAME.is_there_a_winner?
     # last turn
     make_player_x_turn
+    GAME.is_there_a_winner?
   end
 end
 
