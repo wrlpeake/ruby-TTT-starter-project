@@ -62,4 +62,23 @@ class TicTacToe
   def get_game_board
     @game_board
   end
+
+  def is_there_a_winner?
+    if check_board_horizontally?(@game_board) == true
+      puts 'Winner!'
+      true
+    end
+  end
+
+  def check_board_horizontally?(board)
+    row_length = board.length / 3
+    row = board.each_slice(row_length).to_a
+    if row[0].uniq.size == 1
+      true
+    elsif row[1].uniq.size == 1
+      true
+    else
+      row[2].uniq.size == 1
+    end
+  end
 end

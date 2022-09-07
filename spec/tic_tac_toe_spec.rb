@@ -47,6 +47,8 @@ describe TicTacToe do
 
     expect(position).to eql random_between_one_and_nine
   end
+  
+  it 'should display an error message if player enters something other than an integer between 1 and 9'
 
   it 'should allow player x to mark the board via by choosing an integer' do
     tictactoe = TicTacToe.new
@@ -86,5 +88,22 @@ describe TicTacToe do
     tictactoe.mark_game_board(player, position)
 
     expect(tictactoe.get_available_positions).to eql [1, 2, 3, 4, 5, 6, 7, 8]
+  end
+  it 'should check if there is a winner' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('X', 1)
+    tictactoe.mark_game_board('X', 2)
+    tictactoe.mark_game_board('X', 3)
+
+    expect(tictactoe.is_there_a_winner?).to be true
+  end
+
+  it 'should check for three in a row horizontally' do
+    tictactoe = TicTacToe.new
+
+    board = [1, 2, 3, 'O', 'O', 'O', 7, 8, 9]
+
+    expect(tictactoe.check_board_horizontally?(board)).to be true
   end
 end
