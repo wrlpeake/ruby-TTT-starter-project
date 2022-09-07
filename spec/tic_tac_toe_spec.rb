@@ -1,41 +1,90 @@
 # frozen_string_literal: true
 
 require_relative '../lib/tic_tac_toe'
+require 'stringio'
 
 describe TicTacToe do
   it 'should display a welcome message when the game is started' do
-    TestGame = TicTacToe.new
-    expect(TestGame.display_welcome_message).to eql 'Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)\n'
+    tictactoe = TicTacToe.new
+
+    expect do
+      tictactoe.display_welcome_message
+    end.to output("Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)\n\n").to_stdout
   end
 
   it 'should display simple instructions explaining how to play when the game is started' do
-    expect(TestGame.display_instructions).to eql "This is a two-player game. The first player will be the 'X' team, the second player will be 'O' team.\n\n" \
-                                                 "The aim of the game is to get three of your symbol in a row, taking in turns to select your spot on a 3x3 board.\n\n" \
-                                                 "Choose numbers 1-9 to select your spot on the board\n\n"
+    tictactoe = TicTacToe.new
+
+    expect do
+      tictactoe.display_instructions
+    end.to output("This is a two-player game. The first player will be the 'X' team, the second player will be 'O' team.\n\n" \
+                  "The aim of the game is to get three of your symbol in a row, taking in turns to select your spot on a 3x3 board.\n\n" \
+                  "Choose numbers 1-9 to select your spot on the board\n\n").to_stdout
   end
 
   it 'should show the user a 3x3 board with numbers 1-9' do
-    game_board = [[1, 2, 3],
-                  [4, 5, 6],
-                  [7, 8, 9]]
-    expect(TestGame.display_game_board(game_board)).to eql [[1, 2, 3],
-                                                            [4, 5, 6],
-                                                            [7, 8, 9]]
+    tictactoe = TicTacToe.new
+
+    expect do
+      tictactoe.display_game_board
+    end.to output("1 | 2 | 3\n" \
+                  "---------\n" \
+                  "4 | 5 | 6\n" \
+                  "---------\n" \
+                  "7 | 8 | 9\n" \
+                  "---------\n").to_stdout
   end
 
-  it 'should request and receive an integer between 1-9 from the the first player, player x' do
-    request_player_x_selection = 4
-    expect(request_player_x_selection).to be_between(1, 9).inclusive
-    # still considering how to structure this test for user input
+  it 'should request and receive an integer between 1-9 from the player' do
+    tictactoe = TicTacToe.new
+    player = 'X'
+    random_between_one_and_nine = rand(1..9)
+    input = StringIO.new(random_between_one_and_nine.to_s)
+    $stdin = input
+    $stdout = StringIO.new
+
+    position = tictactoe.request_player_selection(player)
+
+    expect(position).to eql random_between_one_and_nine
   end
 
   it 'should allow player x to mark the board via by choosing an integer' do
-    game_board = [[1, 2, 3],
-                  [4, 5, 6],
-                  [7, 8, 9]]
-    player_x_selection = 7
-    TestGame.mark_game_board(game_board, player_x_selection)
-    expect(game_board[2][0]).to eql 'X'
+    tictactoe = TicTacToe.new
+
+    position = 7
+    player = 'X'
+    tictactoe.mark_game_board(player, position)
+
+    expect(tictactoe.get_game_board).to eql [1, 2, 3, 4, 5, 6, 'X', 8, 9]
+  end
+
+  it 'should allow player o to mark the board via by choosing an integer' do
+    tictactoe = TicTacToe.new
+
+    position = 5
+    player = 'O'
+    tictactoe.mark_game_board(player, position)
+
+    expect(tictactoe.get_game_board).to eql [1, 2, 3, 4, 'O', 6, 7, 8, 9]
+  end
+
+  it 'should check that if a position has been taken, it should no longer be available' do
+    tictactoe = TicTacToe.new
+
+    position = 6
+    player = 'O'
+    tictactoe.mark_game_board(player, position)
+
+    expect(tictactoe.position_available?(position)).to be false
+  end
+
+  it 'should keep track of the positions that are available as the game progresses' do
+    tictactoe = TicTacToe.new
+
+    position = 9
+    player = 'X'
+    tictactoe.mark_game_board(player, position)
+
+    expect(tictactoe.get_available_positions).to eql [1, 2, 3, 4, 5, 6, 7, 8]
   end
 end
-

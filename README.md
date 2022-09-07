@@ -18,5 +18,6 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 
 ## Rubocop
 
-1. To run `rubocop` gem to as a linter and formatter, run 'rubocop' from the command line while inside the directory
+1. To run `rubocop` gem to as a linter and formatter, run `rubocop` from the command line while inside the directory
+
 
