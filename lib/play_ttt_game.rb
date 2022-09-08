@@ -11,39 +11,33 @@ class PlayTTTGame
     GAME.display_game_board
   end
 
-  def make_player_x_turn
-    player_x_choice = GAME.request_player_selection('X')
-    GAME.mark_game_board('X', player_x_choice)
-    GAME.display_game_board
-  end
-
-  def make_player_o_turn
-    player_o_choice = GAME.request_player_selection('O')
-    GAME.mark_game_board('O', player_o_choice)
+  def make_player_turn(player)
+    player_choice = GAME.request_player_selection(player)
+    GAME.mark_game_board(player, player_choice)
     GAME.display_game_board
   end
 
   def begin_play
     start_game
     # turn 1
-    make_player_x_turn
-    make_player_o_turn
+    make_player_turn('X')
+    make_player_turn('O')
     # turn 2
-    make_player_x_turn
-    make_player_o_turn
+    make_player_turn('X')
+    make_player_turn('O')
     # turn 3
-    make_player_x_turn
-    GAME.is_there_a_winner?
-    make_player_o_turn
-    GAME.is_there_a_winner?
+    make_player_turn('X')
+    GAME.end_game?
+    make_player_turn('O')
+    GAME.end_game?
     # turn 4
-    make_player_x_turn
-    GAME.is_there_a_winner?
-    make_player_o_turn
-    GAME.is_there_a_winner?
+    make_player_turn('X')
+    GAME.end_game?
+    make_player_turn('O')
+    GAME.end_game?
     # last turn
-    make_player_x_turn
-    GAME.is_there_a_winner?
+    make_player_turn('X')
+    GAME.end_game?
   end
 end
 

@@ -47,8 +47,8 @@ describe TicTacToe do
 
     expect(position).to eql random_between_one_and_nine
   end
-  
-  it 'should display an error message if player enters something other than an integer between 1 and 9'
+
+  # it 'should display an error message if player enters something other than an integer between 1 and 9'
 
   it 'should allow player x to mark the board via by choosing an integer' do
     tictactoe = TicTacToe.new
@@ -102,8 +102,32 @@ describe TicTacToe do
   it 'should check for three in a row horizontally' do
     tictactoe = TicTacToe.new
 
-    board = [1, 2, 3, 'O', 'O', 'O', 7, 8, 9]
+    tictactoe.mark_game_board('O', 7)
+    tictactoe.mark_game_board('O', 8)
+    tictactoe.mark_game_board('O', 9)
 
-    expect(tictactoe.check_board_horizontally?(board)).to be true
+    expect(tictactoe.check_board_horizontally?).to be true
+  end
+
+  it 'should check for three in a row vertically' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('O', 2)
+    tictactoe.mark_game_board('O', 5)
+    tictactoe.mark_game_board('O', 8)
+
+    expect(tictactoe.check_board_vertically?).to be true
+  end
+
+  it 'should exit the game if a player has won' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('O', 2)
+    tictactoe.mark_game_board('O', 5)
+    tictactoe.mark_game_board('O', 8)
+
+    expect do
+      tictactoe.end_game?
+    end.to raise_error(SystemExit)
   end
 end
