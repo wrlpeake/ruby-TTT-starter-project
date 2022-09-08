@@ -19,25 +19,13 @@ class PlayTTTGame
 
   def begin_play
     start_game
-    # turn 1
-    make_player_turn('X')
-    make_player_turn('O')
-    # turn 2
-    make_player_turn('X')
-    make_player_turn('O')
-    # turn 3
-    make_player_turn('X')
-    GAME.end_game?
-    make_player_turn('O')
-    GAME.end_game?
-    # turn 4
-    make_player_turn('X')
-    GAME.end_game?
-    make_player_turn('O')
-    GAME.end_game?
-    # last turn
-    make_player_turn('X')
-    GAME.end_game?
+
+    loop do
+      make_player_turn('X')
+      GAME.end_game?
+      make_player_turn('O')
+      GAME.end_game?
+    end
   end
 end
 
