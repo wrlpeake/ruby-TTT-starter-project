@@ -64,19 +64,21 @@ class TicTacToe
   end
 
   def is_there_a_winner?
-    if check_board_horizontally? == true
-      true
-    else
-      check_board_vertically? == true
-    end
+    return true if check_board_horizontally?
+    return true if check_board_vertically?
+
+    check_board_diagonally?
   end
 
   def end_game?
     if is_there_a_winner? == true
       puts "\nWinner! The game will now end. Thanks for playing.\n\n"
       exit
+    elsif get_available_positions == []
+      puts "\nTie Game. The game will now end. Thanks for playing.\n\n"
+      exit
     else
-      false
+      is_there_a_winner?
     end
   end
 
@@ -96,5 +98,27 @@ class TicTacToe
       return true if c.uniq.size == 1
     end
     false
+  end
+
+  def check_board_diagonally?
+    return true if check_diagonal_left_to_right? == true
+
+    check_diagonal_right_to_left?
+  end
+
+  def check_diagonal_left_to_right?
+    board_side_length = Math.sqrt(@game_board.length)
+    left_to_right_index = board_side_length + 1
+    diagonal_left_to_right = @game_board.select.with_index { |_, index| (index % left_to_right_index).zero? }
+    diagonal_left_to_right.uniq.size == 1
+  end
+
+  def check_diagonal_right_to_left?
+    board_side_length = Math.sqrt(@game_board.length)
+    right_to_left_index = board_side_length - 1
+    diagonal_right_to_left = @game_board.select.with_index { |_, index| (index % right_to_left_index).zero? }
+    diagonal_right_to_left.pop
+    diagonal_right_to_left.shift
+    diagonal_right_to_left.uniq.size == 1
   end
 end

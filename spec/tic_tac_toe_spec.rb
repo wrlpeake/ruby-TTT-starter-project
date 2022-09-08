@@ -130,4 +130,54 @@ describe TicTacToe do
       tictactoe.end_game?
     end.to raise_error(SystemExit)
   end
+
+  it 'should check the board for three in a row diagonally' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('X', 3)
+    tictactoe.mark_game_board('X', 5)
+    tictactoe.mark_game_board('X', 7)
+
+    expect(tictactoe.check_board_diagonally?).to be true
+  end
+
+  it 'should check for three in a row diagonally from top left to bottom right' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('X', 1)
+    tictactoe.mark_game_board('X', 5)
+    tictactoe.mark_game_board('X', 9)
+
+    expect(tictactoe.check_diagonal_left_to_right?).to be true
+  end
+
+  it 'should check for three in a row diagonally from top right to bottom left' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('O', 3)
+    tictactoe.mark_game_board('O', 5)
+    tictactoe.mark_game_board('O', 7)
+
+    expect(tictactoe.check_diagonal_right_to_left?).to be true
+  end
+
+  it 'should recognise when a game has been tied' do
+    tictactoe = TicTacToe.new
+
+    tictactoe.mark_game_board('X', 1)
+    tictactoe.mark_game_board('X', 2)
+    tictactoe.mark_game_board('O', 3)
+    tictactoe.mark_game_board('O', 4)
+    tictactoe.mark_game_board('X', 5)
+    tictactoe.mark_game_board('X', 6)
+    tictactoe.mark_game_board('X', 7)
+    tictactoe.mark_game_board('O', 8)
+    tictactoe.mark_game_board('O', 9)
+
+    tie_game_message = "\nTie Game. The game will now end. Thanks for playing.\n\n"
+
+    expect do
+      tictactoe.end_game?
+    end.to output(tie_game_message).to_stdout
+  end
 end
