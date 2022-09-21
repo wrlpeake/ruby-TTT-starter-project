@@ -63,11 +63,12 @@ class PlayTTTGame
   def start_game
     display_start_game_text
     game_type = GAME.request_game_type
-    if game_type == 1
+    case game_type
+    when 1
       human_vs_human_game
-    elsif game_type == 2
+    when 2
       human_vs_computer_game
-    elsif game_type == 3
+    when 3
       computer_vs_human_game
     else
       computer_vs_computer_game
