@@ -64,10 +64,7 @@ class TicTacToe
   end
 
   def is_there_a_winner?
-    return true if check_board_horizontally?
-    return true if check_board_vertically?
-
-    check_board_diagonally?
+    check_board_horizontally? || check_board_vertically? || check_board_diagonally?
   end
 
   def end_game?
@@ -101,24 +98,45 @@ class TicTacToe
   end
 
   def check_board_diagonally?
-    return true if check_diagonal_left_to_right? == true
-
-    check_diagonal_right_to_left?
+    check_diagonal_left_to_right? || check_diagonal_right_to_left?
   end
 
   def check_diagonal_left_to_right?
     board_side_length = Math.sqrt(@game_board.length)
     left_to_right_index = board_side_length + 1
+
     diagonal_left_to_right = @game_board.select.with_index { |_, index| (index % left_to_right_index).zero? }
+
     diagonal_left_to_right.uniq.size == 1
   end
 
   def check_diagonal_right_to_left?
     board_side_length = Math.sqrt(@game_board.length)
     right_to_left_index = board_side_length - 1
+
     diagonal_right_to_left = @game_board.select.with_index { |_, index| (index % right_to_left_index).zero? }
     diagonal_right_to_left.pop
     diagonal_right_to_left.shift
+
     diagonal_right_to_left.uniq.size == 1
+  end
+
+  def get_first_spot_available
+    get_available_positions[0]
+  end
+
+  def request_game_type
+    puts "\nPlease choose which of the following types of game you would like to play:\n"
+    puts "\nOption 1: Human vs Human\n"
+    puts "\nOption 2: Human vs Computer\n"
+    puts "\nOption 3: Computer vs Human\n"
+    puts "\nOption 4: Computer vs Computer\n"
+    option = gets.to_i
+    if (option >= 1 && option <= 4) == false
+      puts "\nError: not an integer between 1 and 4. Please choose again\n."
+      request_game_type
+    end
+    puts "\nYou have selected Option #{option}\n\n"
+    option
   end
 end
