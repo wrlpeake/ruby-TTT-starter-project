@@ -1,68 +1,71 @@
 # frozen_string_literal: true
 
 require_relative '../lib/tic_tac_toe'
+require_relative '../lib/board'
 
-class PlayTTTGame
-  GAME = TicTacToe.new
+class GameController
+  def initialize
+    @tictactoe = TicTacToe.new
+  end
 
   def display_start_game_text
-    GAME.display_welcome_message
-    GAME.display_instructions
-    GAME.display_game_board
+    @tictactoe.display_welcome_message
+    @tictactoe.display_instructions
+    @tictactoe.display_game_board
   end
 
   def make_human_turn(player)
-    player_choice = GAME.request_player_selection(player)
-    GAME.mark_game_board(player, player_choice)
-    GAME.display_game_board
+    player_choice = @tictactoe.request_player_selection(player)
+    @tictactoe.mark_game_board_wrapper(player, player_choice)
+    @tictactoe.display_game_board
   end
 
   def make_computer_turn(player)
-    first_spot = GAME.get_first_spot_available
+    first_spot = @tictactoe.get_first_spot_available_wrapper
     puts "\nComputer Player #{player}, has selected: #{first_spot}\n\n"
-    GAME.mark_game_board(player, first_spot)
-    GAME.display_game_board
+    @tictactoe.mark_game_board_wrapper(player, first_spot)
+    @tictactoe.display_game_board
   end
 
   def human_vs_human_game
     loop do
       make_human_turn('X')
-      GAME.end_game?
+      @tictactoe.end_game?
       make_human_turn('O')
-      GAME.end_game?
+      @tictactoe.end_game?
     end
   end
 
   def human_vs_computer_game
     loop do
       make_human_turn('X')
-      GAME.end_game?
+      @tictactoe.end_game?
       make_computer_turn('O')
-      GAME.end_game?
+      @tictactoe.end_game?
     end
   end
 
   def computer_vs_human_game
     loop do
       make_computer_turn('X')
-      GAME.end_game?
+      @tictactoe.end_game?
       make_human_turn('O')
-      GAME.end_game?
+      @tictactoe.end_game?
     end
   end
 
   def computer_vs_computer_game
     loop do
       make_computer_turn('X')
-      GAME.end_game?
+      @tictactoe.end_game?
       make_computer_turn('O')
-      GAME.end_game?
+      @tictactoe.end_game?
     end
   end
 
   def start_game
     display_start_game_text
-    game_type = GAME.request_game_type
+    game_type = @tictactoe.request_game_type
     case game_type
     when 1
       human_vs_human_game
@@ -76,5 +79,5 @@ class PlayTTTGame
   end
 end
 
-STARTGAME = PlayTTTGame.new
-STARTGAME.start_game
+NEW_GAME = GameController.new
+NEW_GAME.start_game
