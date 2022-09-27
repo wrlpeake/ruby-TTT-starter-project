@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require_relative 'board'
 
 class TicTacToe
-
   def initialize(board: Board)
     @board = board.new
   end
