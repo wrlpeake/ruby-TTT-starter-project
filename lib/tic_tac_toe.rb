@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'board'
+
 class TicTacToe
-  def initialize
-    @game_board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  def initialize(board: Board)
+    @board = board.new
   end
 
   def display_welcome_message
@@ -15,30 +17,13 @@ class TicTacToe
          "Choose numbers 1-9 to select your spot on the board\n\n"
   end
 
-  def display_game_board
-    horizontal_board_line = '---------'
-    @game_board.each_index do |i|
-      if (i % 3).zero?
-        print @game_board[i]
-      elsif (i % 3) == 1
-        print ' | '
-        print @game_board[i]
-        print ' | '
-      elsif (i % 3) == 2
-        print @game_board[i]
-        print "\n"
-        puts horizontal_board_line
-      end
-    end
-  end
-
   def request_player_selection(player)
     puts "\nPlayer #{player}, please choose an integer between 1 and 9.\n"
     position = gets.to_i
     if (position >= 1 && position <= 9) == false
       puts "\nError: not an integer between 1 and 9. Please choose again\n."
       request_player_selection(player)
-    elsif position_available?(position) == false
+    elsif @board.position_available?(position) == false
       puts "\nError: already selected. Please choose again.\n"
       request_player_selection(player)
     else
@@ -47,20 +32,22 @@ class TicTacToe
     end
   end
 
-  def position_available?(position)
-    get_available_positions.include? position
-  end
-
-  def mark_game_board(player, position)
-    @game_board[position - 1] = player
-  end
-
-  def get_available_positions
-    @game_board.reject { |pos| pos =~ /[XO]/ }
-  end
-
-  def get_game_board
-    @game_board
+  def display_game_board
+    game_board = @board.get_game_board
+    horizontal_board_line = '---------'
+    game_board.each_index do |i|
+      if (i % 3).zero?
+        print game_board[i]
+      elsif (i % 3) == 1
+        print ' | '
+        print game_board[i]
+        print ' | '
+      elsif (i % 3) == 2
+        print game_board[i]
+        print "\n"
+        puts horizontal_board_line
+      end
+    end
   end
 
   def is_there_a_winner?
@@ -71,7 +58,7 @@ class TicTacToe
     if is_there_a_winner? == true
       puts "\nWinner! The game will now end. Thanks for playing.\n\n"
       exit
-    elsif get_available_positions == []
+    elsif @board.get_available_positions == []
       puts "\nTie Game. The game will now end. Thanks for playing.\n\n"
       exit
     else
@@ -80,8 +67,8 @@ class TicTacToe
   end
 
   def check_board_horizontally?
-    row_length = Math.sqrt(@game_board.length)
-    row = @game_board.each_slice(row_length).to_a
+    row_length = Math.sqrt(@board.get_game_board.length)
+    row = @board.get_game_board.each_slice(row_length).to_a
     row.each do |r|
       return true if r.uniq.size == 1
     end
@@ -89,8 +76,8 @@ class TicTacToe
   end
 
   def check_board_vertically?
-    column_amount = Math.sqrt(@game_board.length)
-    column = @game_board.group_by.with_index { |_, index| index % column_amount }.values
+    column_amount = Math.sqrt(@board.get_game_board.length)
+    column = @board.get_game_board.group_by.with_index { |_, index| index % column_amount }.values
     column.each do |c|
       return true if c.uniq.size == 1
     end
@@ -102,27 +89,23 @@ class TicTacToe
   end
 
   def check_diagonal_left_to_right?
-    board_side_length = Math.sqrt(@game_board.length)
+    board_side_length = Math.sqrt(@board.get_game_board.length)
     left_to_right_index = board_side_length + 1
 
-    diagonal_left_to_right = @game_board.select.with_index { |_, index| (index % left_to_right_index).zero? }
+    diagonal_left_to_right = @board.get_game_board.select.with_index { |_, index| (index % left_to_right_index).zero? }
 
     diagonal_left_to_right.uniq.size == 1
   end
 
   def check_diagonal_right_to_left?
-    board_side_length = Math.sqrt(@game_board.length)
+    board_side_length = Math.sqrt(@board.get_game_board.length)
     right_to_left_index = board_side_length - 1
 
-    diagonal_right_to_left = @game_board.select.with_index { |_, index| (index % right_to_left_index).zero? }
+    diagonal_right_to_left = @board.get_game_board.select.with_index { |_, index| (index % right_to_left_index).zero? }
     diagonal_right_to_left.pop
     diagonal_right_to_left.shift
 
     diagonal_right_to_left.uniq.size == 1
-  end
-
-  def get_first_spot_available
-    get_available_positions[0]
   end
 
   def request_game_type
@@ -138,5 +121,13 @@ class TicTacToe
     end
     puts "\nYou have selected Option #{option}\n\n"
     option
+  end
+
+  def mark_game_board_wrapper(player, position)
+    @board.mark_game_board(player, position)
+  end
+
+  def get_first_spot_available_wrapper
+    @board.get_first_spot_available
   end
 end
