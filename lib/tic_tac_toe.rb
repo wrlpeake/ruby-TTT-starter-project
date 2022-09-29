@@ -70,15 +70,11 @@ class TicTacToe
   end
 
   def validate_human_player_selection(position)
-    error_type = 0
-    if (position >= 1 && position <= 9) == false
-      1
-
-    elsif @board.position_available?(position) == false
-      2
-
-    else
-      error_type
-    end
+    validated = 0
+    integer_error = 1
+    position_error = 2
+    return integer_error if (position >= 1 && position <= 9) == false
+    return position_error if @board.position_available?(position) == false
+    validated
   end
 end

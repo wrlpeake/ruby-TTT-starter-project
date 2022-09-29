@@ -69,4 +69,30 @@ describe TicTacToe do
 
     expect(@tictactoe.get_available_positions_wrapper).to eql []
   end
+
+  it 'should return 0 if the human player selection is valid' do
+    position = 4
+
+    validation_code = @tictactoe.validate_human_player_selection(position)
+
+    expect(validation_code).to eql 0
+  end
+
+  it 'should return 1 if the human player selection is not an int between 1-9' do
+    position = 13
+    
+    validation_code = @tictactoe.validate_human_player_selection(position)
+
+    expect(validation_code).to eql 1
+  end
+
+  it 'should return 2 if the human player selection has already been chosen' do
+    @tictactoe.mark_game_board_wrapper('O', 5)
+
+    position = 5
+    
+    validation_code = @tictactoe.validate_human_player_selection(position)
+
+    expect(validation_code).to eql 2
+  end
 end
