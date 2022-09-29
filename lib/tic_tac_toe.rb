@@ -75,6 +75,7 @@ class TicTacToe
     position_error = 2
     return integer_error if (position >= 1 && position <= 9) == false
     return position_error if @board.position_available?(position) == false
+
     validated
   end
 end

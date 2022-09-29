@@ -80,7 +80,7 @@ describe TicTacToe do
 
   it 'should return 1 if the human player selection is not an int between 1-9' do
     position = 13
-    
+
     validation_code = @tictactoe.validate_human_player_selection(position)
 
     expect(validation_code).to eql 1
@@ -90,7 +90,7 @@ describe TicTacToe do
     @tictactoe.mark_game_board_wrapper('O', 5)
 
     position = 5
-    
+
     validation_code = @tictactoe.validate_human_player_selection(position)
 
     expect(validation_code).to eql 2
