@@ -58,7 +58,7 @@ class TicTacToe
   end
 
   def get_first_spot_available
-    @board.load_first_spot_available
+    @board.find_first_spot_available
   end
 
   def get_game_board
@@ -66,7 +66,7 @@ class TicTacToe
   end
 
   def get_available_positions
-    @board.load_available_positions
+    @board.list_available_positions
   end
 
   def validate_human_player_selection(position)
@@ -82,7 +82,7 @@ class TicTacToe
   def validate_game_type_selection(option)
     input_error = 0
     return input_error if (option >= 1 && option <= 4) == false
-    
+
     option
   end
 end

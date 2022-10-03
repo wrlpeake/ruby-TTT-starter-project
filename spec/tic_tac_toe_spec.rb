@@ -98,8 +98,15 @@ describe TicTacToe do
 
   it 'validate_game_type_selection() should return an integer between 1 and 4 for the game mode' do
     game_type_selection = 3
-    
+
     validation_code = @tictactoe.validate_game_type_selection(game_type_selection)
     expect(validation_code).to eql game_type_selection
+  end
+
+  it 'validate_game_type_selection() should return 0 if the selection is anything other than a number between 1-4' do
+    game_type_selection = 6
+
+    validation_code = @tictactoe.validate_game_type_selection(game_type_selection)
+    expect(validation_code).to eql 0
   end
 end

@@ -9,7 +9,7 @@ describe Board do
   end
 
   it 'should return the first available spot on the board' do
-    expect(@board.load_first_spot_available).to eql 1
+    expect(@board.find_first_spot_available).to eql 1
   end
 
   it 'should keep track of the positions that are available as the game progresses' do
@@ -17,7 +17,7 @@ describe Board do
     player = 'X'
     @board.update_game_board(player, position)
 
-    expect(@board.load_available_positions).to eql [1, 2, 3, 4, 5, 6, 7, 8]
+    expect(@board.list_available_positions).to eql [1, 2, 3, 4, 5, 6, 7, 8]
   end
 
   it 'should check that if a position has been taken, it should no longer be available' do

@@ -88,7 +88,7 @@ class GameController
 
   def get_game_type
     game_selection = @user_interface.request_game_type
-    if @tictactoe.validate_game_type_selection(game_selection) == 0
+    if @tictactoe.validate_game_type_selection(game_selection).zero?
       @user_interface.display_game_type_error_message
       get_game_type
     else
