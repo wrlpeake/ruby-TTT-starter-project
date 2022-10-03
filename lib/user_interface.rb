@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UI
+class UserInterface
   def display_welcome_message
     puts "Welcome to Tic-Tac-Toe (AKA Knoughts & Crosses)\n\n"
   end
@@ -39,13 +39,7 @@ class UI
     puts "\nOption 2: Human vs Computer\n"
     puts "\nOption 3: Computer vs Human\n"
     puts "\nOption 4: Computer vs Computer\n"
-    option = gets.to_i
-    if (option >= 1 && option <= 4) == false
-      puts "\nError: not an integer between 1 and 4. Please choose again\n."
-      request_game_type
-    end
-    puts "\nYou have selected Option #{option}\n\n"
-    option
+    gets.to_i
   end
 
   def display_wrong_integer_error_message
@@ -66,5 +60,13 @@ class UI
 
   def display_tie_game_message
     puts "\nTie Game. The game will now end. Thanks for playing.\n\n"
+  end
+
+  def display_game_type_error_message
+    puts "\nError: not an integer between 1 and 4. Please choose again.\n"
+  end
+
+  def display_validate_game_type_selection(option)
+    puts "\nYou have selected Option #{option}\n\n"
   end
 end

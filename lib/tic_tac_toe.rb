@@ -12,8 +12,8 @@ class TicTacToe
   end
 
   def check_board_horizontally?
-    row_length = Math.sqrt(@board.get_game_board.length)
-    row = @board.get_game_board.each_slice(row_length).to_a
+    row_length = Math.sqrt(@board.load_game_board.length)
+    row = @board.load_game_board.each_slice(row_length).to_a
     row.each do |r|
       return true if r.uniq.size == 1
     end
@@ -21,8 +21,8 @@ class TicTacToe
   end
 
   def check_board_vertically?
-    column_amount = Math.sqrt(@board.get_game_board.length)
-    column = @board.get_game_board.group_by.with_index { |_, index| index % column_amount }.values
+    column_amount = Math.sqrt(@board.load_game_board.length)
+    column = @board.load_game_board.group_by.with_index { |_, index| index % column_amount }.values
     column.each do |c|
       return true if c.uniq.size == 1
     end
@@ -34,39 +34,39 @@ class TicTacToe
   end
 
   def check_diagonal_left_to_right?
-    board_side_length = Math.sqrt(@board.get_game_board.length)
+    board_side_length = Math.sqrt(@board.load_game_board.length)
     left_to_right_index = board_side_length + 1
 
-    diagonal_left_to_right = @board.get_game_board.select.with_index { |_, index| (index % left_to_right_index).zero? }
+    diagonal_left_to_right = @board.load_game_board.select.with_index { |_, index| (index % left_to_right_index).zero? }
 
     diagonal_left_to_right.uniq.size == 1
   end
 
   def check_diagonal_right_to_left?
-    board_side_length = Math.sqrt(@board.get_game_board.length)
+    board_side_length = Math.sqrt(@board.load_game_board.length)
     right_to_left_index = board_side_length - 1
 
-    diagonal_right_to_left = @board.get_game_board.select.with_index { |_, index| (index % right_to_left_index).zero? }
+    diagonal_right_to_left = @board.load_game_board.select.with_index { |_, index| (index % right_to_left_index).zero? }
     diagonal_right_to_left.pop
     diagonal_right_to_left.shift
 
     diagonal_right_to_left.uniq.size == 1
   end
 
-  def mark_game_board_wrapper(player, position)
-    @board.mark_game_board(player, position)
+  def mark_game_board(player, position)
+    @board.update_game_board(player, position)
   end
 
-  def get_first_spot_available_wrapper
-    @board.get_first_spot_available
+  def get_first_spot_available
+    @board.load_first_spot_available
   end
 
-  def get_game_board_wrapper
-    @board.get_game_board
+  def get_game_board
+    @board.load_game_board
   end
 
-  def get_available_positions_wrapper
-    @board.get_available_positions
+  def get_available_positions
+    @board.load_available_positions
   end
 
   def validate_human_player_selection(position)
@@ -77,5 +77,12 @@ class TicTacToe
     return position_error if @board.position_available?(position) == false
 
     validated
+  end
+
+  def validate_game_type_selection(option)
+    input_error = 0
+    return input_error if (option >= 1 && option <= 4) == false
+    
+    option
   end
 end
