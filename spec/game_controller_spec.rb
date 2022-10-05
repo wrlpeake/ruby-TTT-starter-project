@@ -8,7 +8,7 @@ describe GameController do
     @game_controller = GameController.new
     winning_message = /Winner! The game will now end. Thanks for playing./
 
-    allow(@game_controller).to receive(:get_game_type_selection).and_return(4)
+    allow(@game_controller).to receive(:get_game_type).and_return(4)
     expect do
       @game_controller.load_game
     end.to output(winning_message).to_stdout
@@ -18,7 +18,7 @@ describe GameController do
     @game_controller = GameController.new
     winning_message = /Winner! The game will now end. Thanks for playing./
 
-    allow(@game_controller).to receive(:get_game_type_selection).and_return(2)
+    allow(@game_controller).to receive(:get_game_type).and_return(2)
     allow(@game_controller).to receive(:get_human_selection).and_return(1, 5, 9)
 
     expect do
@@ -30,7 +30,7 @@ describe GameController do
     @game_controller = GameController.new
     winning_message = /Winner! The game will now end. Thanks for playing./
 
-    allow(@game_controller).to receive(:get_game_type_selection).and_return(3)
+    allow(@game_controller).to receive(:get_game_type).and_return(3)
     allow(@game_controller).to receive(:get_human_selection).and_return(3, 5, 7)
 
     expect do
@@ -42,7 +42,7 @@ describe GameController do
     @game_controller = GameController.new
     winning_message = /Winner! The game will now end. Thanks for playing./
 
-    allow(@game_controller).to receive(:get_game_type_selection).and_return(1)
+    allow(@game_controller).to receive(:get_game_type).and_return(1)
     allow(@game_controller).to receive(:get_human_selection).and_return(1, 2, 5, 7, 9)
 
     expect do
@@ -54,7 +54,7 @@ describe GameController do
     @game_controller = GameController.new
     tie_game_message = /Tie Game. The game will now end. Thanks for playing./
 
-    allow(@game_controller).to receive(:get_game_type_selection).and_return(1)
+    allow(@game_controller).to receive(:get_game_type).and_return(1)
     allow(@game_controller).to receive(:get_human_selection).and_return(1, 3, 2, 4, 5, 8, 6, 9, 7)
 
     expect do
@@ -86,18 +86,25 @@ describe GameController do
     expect(@game_controller.end_game?(false, false)).to be false
   end
 
-  it 'get_game_type_selection should return a validated game option' do
+  it 'get_game_type should return a validated game option' do
     @game_controller = GameController.new
-    game_selection = 3
+    game_option = 3
 
-    expect(@game_controller.get_game_type(game_selection)).to eql 3
+    allow(@game_controller).to receive(:get_game_type_selection).and_return(game_option)
+
+    expect(@game_controller.get_game_type).to eql game_option
   end
 
-  it 'get_human_position(player) should return a validated position on the board' do
+  it 'make human turn should mark the game board with the validated human player selection display' do
     @game_controller = GameController.new
-    player = 'X'
-    player_selection = 7
+    human_selection = 7
+    player = 'O'
+    validated_player_selection_message = /Player #{player}, has selected: #{human_selection}/
 
-    expect(@game_controller.get_human_position(player, player_selection)).to eql 7
+    allow(@game_controller).to receive(:get_human_selection).and_return(human_selection)
+
+    expect do
+      @game_controller.make_human_turn(player)
+    end.to output(validated_player_selection_message).to_stdout
   end
 end
