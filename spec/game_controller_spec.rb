@@ -19,6 +19,7 @@ describe GameController do
     winning_message = /Winner! The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(2)
+    
     allow(@game_controller).to receive(:get_human_selection).and_return(1, 5, 9)
 
     expect do
@@ -95,7 +96,19 @@ describe GameController do
     expect(@game_controller.get_game_type).to eql game_option
   end
 
-  it 'make human turn should mark the game board with the validated human player selection display' do
+  it 'get_game_type should request the game type again when given wrong input' do
+    @game_controller = GameController.new
+    wrong_game_option_one = 7
+    wrong_game_option_two = 14
+    right_game_option = 2
+
+    allow(@game_controller).to receive(:get_game_type_selection).and_return(wrong_game_option_one,
+                                                                            wrong_game_option_two, right_game_option)
+
+    expect(@game_controller.get_game_type).to eql right_game_option
+  end
+
+  it 'make_human_turn should display the validated player selection after marking the game board' do
     @game_controller = GameController.new
     human_selection = 7
     player = 'O'
@@ -106,5 +119,36 @@ describe GameController do
     expect do
       @game_controller.make_human_turn(player)
     end.to output(validated_player_selection_message).to_stdout
+  end
+
+  it 'make_human_turn should request input again if the position is already taken' do
+    @game_controller = GameController.new
+    first_selection = 7
+    repeated_selection = 7
+    second_selection = 9
+    player = 'O'
+    already_selected_message = /Error: already selected. Please choose again./
+
+    allow(@game_controller).to receive(:get_human_selection).and_return(first_selection, repeated_selection,
+                                                                        second_selection)
+    @game_controller.make_human_turn(player)
+
+    expect do
+      @game_controller.make_human_turn(player)
+    end.to output(already_selected_message).to_stdout
+  end
+
+  it 'make_human_turn should request input again if the input is not an integer between 1-9' do
+    @game_controller = GameController.new
+    invalid_input = 'foobar'
+    valid_input = 4
+    player = 'O'
+    invalid_input_message = /Error: not an integer between 1 and 9. Please choose again./
+
+    allow(@game_controller).to receive(:get_human_selection).and_return(invalid_input, valid_input)
+
+    expect do
+      @game_controller.make_human_turn(player)
+    end.to output(invalid_input_message).to_stdout
   end
 end

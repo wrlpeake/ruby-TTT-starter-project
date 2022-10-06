@@ -45,24 +45,26 @@ describe UserInterface do
   it 'should request and receive an integer between 1-9 from the player' do
     player = 'X'
     random_between_one_and_nine = rand(1..9)
-    input = StringIO.new(random_between_one_and_nine.to_s)
+    input_string = random_between_one_and_nine.to_s
+    input = StringIO.new(input_string)
     $stdin = input
     $stdout = StringIO.new
 
     position = @user_interface.request_player_selection(player)
 
-    expect(position).to eql random_between_one_and_nine
+    expect(position).to eql input_string
   end
 
   it 'should ask the user to select a number between 1-4 for the game type' do
     random_between_one_and_four = rand(1..4)
-    input = StringIO.new(random_between_one_and_four.to_s)
+    input_string = random_between_one_and_four.to_s
+    input = StringIO.new(input_string)
     $stdin = input
     $stdout = StringIO.new
 
     game_type = @user_interface.request_game_type
 
-    expect(game_type).to eql random_between_one_and_four
+    expect(game_type).to eql input_string
   end
 
   it 'should display wrong integer error message' do

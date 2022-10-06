@@ -20,7 +20,7 @@ class GameController
   end
 
   def get_game_type
-    game_selection = get_game_type_selection
+    game_selection = get_game_type_selection.to_i
     if @tictactoe.validate_game_type_selection(game_selection).zero?
       @user_interface.display_game_type_error_message
       get_game_type
@@ -35,7 +35,7 @@ class GameController
   end
 
   def make_human_turn(player)
-    player_selection = get_human_selection(player)
+    player_selection = get_human_selection(player).to_i
     case @tictactoe.validate_human_player_selection(player_selection)
     when 1
       @user_interface.display_wrong_integer_error_message
@@ -44,8 +44,8 @@ class GameController
       @user_interface.display_position_not_available_error_message
       make_human_turn(player)
     else
-      @user_interface.display_validated_player_selection(player, player_selection)
       @tictactoe.mark_game_board(player, player_selection)
+      @user_interface.display_validated_player_selection(player, player_selection)
       @user_interface.display_game_board(@tictactoe.get_game_board)
     end
   end
