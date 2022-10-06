@@ -30,7 +30,7 @@ class UserInterface
 
   def request_player_selection(player)
     puts "\nPlayer #{player}, please choose an integer between 1 and 9.\n"
-    gets.to_i
+    gets
   end
 
   def request_game_type
@@ -39,7 +39,7 @@ class UserInterface
     puts "\nOption 2: Human vs Computer\n"
     puts "\nOption 3: Computer vs Human\n"
     puts "\nOption 4: Computer vs Computer\n"
-    gets.to_i
+    gets
   end
 
   def display_wrong_integer_error_message

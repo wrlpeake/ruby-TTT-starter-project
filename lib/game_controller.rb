@@ -15,8 +15,27 @@ class GameController
     @user_interface.display_game_board(@tictactoe.get_game_board)
   end
 
+  def get_game_type_selection
+    @user_interface.request_game_type
+  end
+
+  def get_game_type
+    game_selection = get_game_type_selection.to_i
+    if @tictactoe.validate_game_type_selection(game_selection).zero?
+      @user_interface.display_game_type_error_message
+      get_game_type
+    else
+      @user_interface.display_validate_game_type_selection(game_selection)
+      game_selection
+    end
+  end
+
+  def get_human_selection(player)
+    @user_interface.request_player_selection(player)
+  end
+
   def make_human_turn(player)
-    player_selection = @user_interface.request_player_selection(player)
+    player_selection = get_human_selection(player).to_i
     case @tictactoe.validate_human_player_selection(player_selection)
     when 1
       @user_interface.display_wrong_integer_error_message
@@ -25,8 +44,8 @@ class GameController
       @user_interface.display_position_not_available_error_message
       make_human_turn(player)
     else
-      @user_interface.display_validated_player_selection(player, player_selection)
       @tictactoe.mark_game_board(player, player_selection)
+      @user_interface.display_validated_player_selection(player, player_selection)
       @user_interface.display_game_board(@tictactoe.get_game_board)
     end
   end
@@ -38,66 +57,63 @@ class GameController
     @user_interface.display_game_board(@tictactoe.get_game_board)
   end
 
-  def end_game?
-    if @tictactoe.is_there_a_winner? == true
+  def get_winner
+    @tictactoe.is_there_a_winner?
+  end
+
+  def get_tie
+    @tictactoe.get_available_positions == []
+  end
+
+  def end_game?(winner, tie)
+    if winner == true
       @user_interface.display_winner_message
-      exit
-    elsif @tictactoe.get_available_positions == []
+      true
+    elsif tie == true
       @user_interface.display_tie_game_message
-      exit
+      true
     else
-      @tictactoe.is_there_a_winner?
+      winner
     end
   end
 
   def human_vs_human_game
-    loop do
+    while end_game?(get_winner, get_tie) == false
       make_human_turn('X')
-      end_game?
+      break if end_game?(get_winner, get_tie) == true
+
       make_human_turn('O')
-      end_game?
     end
   end
 
   def human_vs_computer_game
-    loop do
+    while end_game?(get_winner, get_tie) == false
       make_human_turn('X')
-      end_game?
+      break if end_game?(get_winner, get_tie) == true
+
       make_computer_turn('O')
-      end_game?
     end
   end
 
   def computer_vs_human_game
-    loop do
+    while end_game?(get_winner, get_tie) == false
       make_computer_turn('X')
-      end_game?
+      break if end_game?(get_winner, get_tie) == true
+
       make_human_turn('O')
-      end_game?
     end
   end
 
   def computer_vs_computer_game
-    loop do
+    while end_game?(get_winner, get_tie) == false
       make_computer_turn('X')
-      end_game?
+      break if end_game?(get_winner, get_tie) == true
+
       make_computer_turn('O')
-      end_game?
     end
   end
 
-  def get_game_type
-    game_selection = @user_interface.request_game_type
-    if @tictactoe.validate_game_type_selection(game_selection).zero?
-      @user_interface.display_game_type_error_message
-      get_game_type
-    else
-      @user_interface.display_validate_game_type_selection(game_selection)
-      game_selection
-    end
-  end
-
-  def start_game
+  def load_game
     display_start_game_text
     case get_game_type
     when 1
@@ -111,6 +127,3 @@ class GameController
     end
   end
 end
-
-NEW_GAME = GameController.new
-NEW_GAME.start_game
