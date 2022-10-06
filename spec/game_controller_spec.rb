@@ -19,7 +19,7 @@ describe GameController do
     winning_message = /Winner! The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(2)
-    
+
     allow(@game_controller).to receive(:get_human_selection).and_return(1, 5, 9)
 
     expect do
