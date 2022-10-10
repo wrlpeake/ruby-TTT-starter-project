@@ -20,4 +20,7 @@ This is a Tic-Tac-Toe (AKA Knoughts & Crosses here in the UK) game written in Ru
 
 1. To run `rubocop` gem to as a linter and formatter, run `rubocop` from the command line while inside the directory
 
+## Test Coverage
+
+1. To see the test coverage report from `simplecov`, run the test suite with `rspec` then run `open coverage/index.html` to show the report in your browser. **Note:** [This guide](https://dwheeler.com/essays/open-files-urls.html) can help if you're unsure which command your particular operating system requires.
 
