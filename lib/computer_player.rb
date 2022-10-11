@@ -2,6 +2,6 @@
 
 require_relative 'player'
 
-class HumanPlayer < Player
+class ComputerPlayer < Player
   attr_accessor :marker
 end
