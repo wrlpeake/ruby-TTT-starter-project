@@ -4,8 +4,14 @@ require_relative '../lib/game_controller'
 require 'stringio'
 
 describe GameController do
-  it 'can play a computer v computer game' do
+  before(:each) do
     @game_controller = GameController.new
+  end
+
+  it 'scenario: can play a complete computer v computer game' do
+    # Given an input of 4 for the game mode, which is the computer v computer option
+    # When the game loads, it should play a computer v computer game
+    # Then it should complete the game and displaying the winning message
     winning_message = /Winner! The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(4)
@@ -14,8 +20,11 @@ describe GameController do
     end.to output(winning_message).to_stdout
   end
 
-  it 'can play a human v computer game' do
-    @game_controller = GameController.new
+  it 'scenario: can play a complete human v computer game' do
+    # Given an input of 2 for the game mode, which is the human v computer option
+    # When the game loads, it should play a human v computer game
+    #   and take the input of 1, 5, and 9 for the human selections
+    # Then the human player should win and the game display the winning message
     winning_message = /Winner! The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(2)
@@ -27,8 +36,11 @@ describe GameController do
     end.to output(winning_message).to_stdout
   end
 
-  it 'can play a computer v human game' do
-    @game_controller = GameController.new
+  it 'scenario: can play a complete computer v human game' do
+    # Given an input of 3 for the game mode, which is the computer v human option
+    # When the game loads, it should play a computer v human game
+    #   and take the input of 3, 5, and 7 for the human selections
+    # Then the human player should win and the game display the winning message
     winning_message = /Winner! The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(3)
@@ -40,7 +52,11 @@ describe GameController do
   end
 
   it 'can play a human v human game' do
-    @game_controller = GameController.new
+    # Given an input of 1 for the game mode, which is the human v human option
+    # When the game loads, it should play a human v human game
+    #   and take the input of 1, 5, and 9 for the human player X
+    #   and take the input of 2 and 7 for the human player O
+    # Then the human player X should win and the game display the winning message
     winning_message = /Winner! The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(1)
@@ -52,7 +68,11 @@ describe GameController do
   end
 
   it 'can play a human v human tie game' do
-    @game_controller = GameController.new
+    # Given an input of 1 for the game mode, which is the human v human option
+    # When the game loads, it should play a human v human game
+    #   and take the input of 1, 2, 5, 6, and 7 for the human player X
+    #   and take the input of 3, 4, 8, and 9 for the human player O
+    # Then the game should be tied and the tie game message displayed
     tie_game_message = /Tie Game. The game will now end. Thanks for playing./
 
     allow(@game_controller).to receive(:get_game_type).and_return(1)
@@ -64,31 +84,24 @@ describe GameController do
   end
 
   it 'end_game? should return true if there is a winner' do
-    @game_controller = GameController.new
-
     $stdout = StringIO.new
 
     expect(@game_controller.end_game?(true, false)).to be true
   end
 
   it 'end_game? should return true if there is a tie' do
-    @game_controller = GameController.new
-
     $stdout = StringIO.new
 
     expect(@game_controller.end_game?(false, true)).to be true
   end
 
   it 'end_game? should return false if there is a no winner or no tie' do
-    @game_controller = GameController.new
-
     $stdout = StringIO.new
 
     expect(@game_controller.end_game?(false, false)).to be false
   end
 
   it 'get_game_type should return a validated game option' do
-    @game_controller = GameController.new
     game_option = 3
 
     allow(@game_controller).to receive(:get_game_type_selection).and_return(game_option)
@@ -97,7 +110,6 @@ describe GameController do
   end
 
   it 'get_game_type should request the game type again when given wrong input' do
-    @game_controller = GameController.new
     wrong_game_option_one = 7
     wrong_game_option_two = 14
     right_game_option = 2
@@ -109,7 +121,6 @@ describe GameController do
   end
 
   it 'make_human_turn should display the validated player selection after marking the game board' do
-    @game_controller = GameController.new
     human_selection = 7
     player = 'O'
     validated_player_selection_message = /Player #{player}, has selected: #{human_selection}/
@@ -122,7 +133,6 @@ describe GameController do
   end
 
   it 'make_human_turn should request input again if the position is already taken' do
-    @game_controller = GameController.new
     first_selection = 7
     repeated_selection = 7
     second_selection = 9
@@ -139,7 +149,6 @@ describe GameController do
   end
 
   it 'make_human_turn should request input again if the input is not an integer between 1-9' do
-    @game_controller = GameController.new
     invalid_input = 'foobar'
     valid_input = 4
     player = 'O'
