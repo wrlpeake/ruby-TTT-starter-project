@@ -53,8 +53,8 @@ class TicTacToe
     diagonal_right_to_left.uniq.size == 1
   end
 
-  def mark_game_board(player, position)
-    @board.update_game_board(player, position)
+  def mark_game_board(marker, position)
+    @board.update_game_board(marker, position)
   end
 
   def get_first_spot_available

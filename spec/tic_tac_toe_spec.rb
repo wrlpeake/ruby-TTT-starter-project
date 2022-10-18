@@ -9,63 +9,71 @@ describe TicTacToe do
   end
 
   it 'should recognise when there is a winner' do
-    @tictactoe.mark_game_board('X', 1)
-    @tictactoe.mark_game_board('X', 2)
-    @tictactoe.mark_game_board('X', 3)
+    marker = 'X'
+    @tictactoe.mark_game_board(marker, 1)
+    @tictactoe.mark_game_board(marker, 2)
+    @tictactoe.mark_game_board(marker, 3)
 
     expect(@tictactoe.is_there_a_winner?).to be true
   end
 
   it 'should check for three in a row horizontally' do
-    @tictactoe.mark_game_board('O', 7)
-    @tictactoe.mark_game_board('O', 8)
-    @tictactoe.mark_game_board('O', 9)
+    marker = 'O'
+    @tictactoe.mark_game_board(marker, 7)
+    @tictactoe.mark_game_board(marker, 8)
+    @tictactoe.mark_game_board(marker, 9)
 
     expect(@tictactoe.check_board_horizontally?).to be true
   end
 
   it 'should check for three in a row vertically' do
-    @tictactoe.mark_game_board('O', 2)
-    @tictactoe.mark_game_board('O', 5)
-    @tictactoe.mark_game_board('O', 8)
+    marker = 'O'
+    @tictactoe.mark_game_board(marker, 2)
+    @tictactoe.mark_game_board(marker, 5)
+    @tictactoe.mark_game_board(marker, 8)
 
     expect(@tictactoe.check_board_vertically?).to be true
   end
 
   it 'should check the board for three in a row diagonally' do
-    @tictactoe.mark_game_board('X', 3)
-    @tictactoe.mark_game_board('X', 5)
-    @tictactoe.mark_game_board('X', 7)
+    marker = 'X'
+    @tictactoe.mark_game_board(marker, 3)
+    @tictactoe.mark_game_board(marker, 5)
+    @tictactoe.mark_game_board(marker, 7)
 
     expect(@tictactoe.check_board_diagonally?).to be true
   end
 
   it 'should check for three in a row diagonally from top left to bottom right' do
-    @tictactoe.mark_game_board('X', 1)
-    @tictactoe.mark_game_board('X', 5)
-    @tictactoe.mark_game_board('X', 9)
+    marker = 'X'
+    @tictactoe.mark_game_board(marker, 1)
+    @tictactoe.mark_game_board(marker, 5)
+    @tictactoe.mark_game_board(marker, 9)
 
     expect(@tictactoe.check_diagonal_left_to_right?).to be true
   end
 
   it 'should check for three in a row diagonally from top right to bottom left' do
-    @tictactoe.mark_game_board('O', 3)
-    @tictactoe.mark_game_board('O', 5)
-    @tictactoe.mark_game_board('O', 7)
+    marker = 'O'
+    @tictactoe.mark_game_board(marker, 3)
+    @tictactoe.mark_game_board(marker, 5)
+    @tictactoe.mark_game_board(marker, 7)
 
     expect(@tictactoe.check_diagonal_right_to_left?).to be true
   end
 
   it 'should recognise when a game has been tied' do
-    @tictactoe.mark_game_board('X', 1)
-    @tictactoe.mark_game_board('X', 2)
-    @tictactoe.mark_game_board('O', 3)
-    @tictactoe.mark_game_board('O', 4)
-    @tictactoe.mark_game_board('X', 5)
-    @tictactoe.mark_game_board('X', 6)
-    @tictactoe.mark_game_board('X', 7)
-    @tictactoe.mark_game_board('O', 8)
-    @tictactoe.mark_game_board('O', 9)
+    player_one_marker = 'X'
+    player_two_marker = 'O'
+    @tictactoe.mark_game_board(player_one_marker, 1)
+    @tictactoe.mark_game_board(player_one_marker, 2)
+    @tictactoe.mark_game_board(player_two_marker, 3)
+    @tictactoe.mark_game_board(player_two_marker, 4)
+    @tictactoe.mark_game_board(player_one_marker, 5)
+    @tictactoe.mark_game_board(player_one_marker, 6)
+    @tictactoe.mark_game_board(player_one_marker, 7)
+    @tictactoe.mark_game_board(player_two_marker, 8)
+    @tictactoe.mark_game_board(player_two_marker, 9)
 
     expect(@tictactoe.get_available_positions).to eql []
   end

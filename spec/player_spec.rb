@@ -8,4 +8,11 @@ describe Player do
 
     expect(@player.marker).to eq 'O'
   end
+
+  it 'should get the position for a move' do
+    @player = Player.new('X')
+    position = 3
+
+    expect(@player.get_move(position)).to eq position
+  end
 end

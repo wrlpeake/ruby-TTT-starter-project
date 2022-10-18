@@ -6,4 +6,8 @@ class Player
   def initialize(marker)
     @marker = marker
   end
+
+  def get_move(position)
+    position
+  end
 end

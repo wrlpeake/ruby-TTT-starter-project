@@ -121,43 +121,43 @@ describe GameController do
   end
 
   it 'make_human_turn should display the validated player selection after marking the game board' do
+    @player_one = Player.new('X')
     human_selection = 7
-    player = 'O'
-    validated_player_selection_message = /Player #{player}, has selected: #{human_selection}/
+    validated_player_selection_message = /Player #{@player_one.marker}, has selected: #{human_selection}/
 
     allow(@game_controller).to receive(:get_human_selection).and_return(human_selection)
 
     expect do
-      @game_controller.make_human_turn(player)
+      @game_controller.make_human_turn(@player_one)
     end.to output(validated_player_selection_message).to_stdout
   end
 
   it 'make_human_turn should request input again if the position is already taken' do
+    @player_two = Player.new('O')
     first_selection = 7
     repeated_selection = 7
     second_selection = 9
-    player = 'O'
     already_selected_message = /Error: already selected. Please choose again./
 
     allow(@game_controller).to receive(:get_human_selection).and_return(first_selection, repeated_selection,
                                                                         second_selection)
-    @game_controller.make_human_turn(player)
+    @game_controller.make_human_turn(@player_two)
 
     expect do
-      @game_controller.make_human_turn(player)
+      @game_controller.make_human_turn(@player_two)
     end.to output(already_selected_message).to_stdout
   end
 
   it 'make_human_turn should request input again if the input is not an integer between 1-9' do
+    @player_two = Player.new('O')
     invalid_input = 'foobar'
     valid_input = 4
-    player = 'O'
     invalid_input_message = /Error: not an integer between 1 and 9. Please choose again./
 
     allow(@game_controller).to receive(:get_human_selection).and_return(invalid_input, valid_input)
 
     expect do
-      @game_controller.make_human_turn(player)
+      @game_controller.make_human_turn(@player_two)
     end.to output(invalid_input_message).to_stdout
   end
 end
