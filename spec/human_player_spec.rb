@@ -8,4 +8,11 @@ describe HumanPlayer do
 
     expect(@human_player.marker).to eq 'X'
   end
+
+  it 'should get the human selected position for its move' do
+    @human_player = HumanPlayer.new('O')
+    selection = 5
+
+    expect(@human_player.get_move(selection)).to eq selection
+  end
 end

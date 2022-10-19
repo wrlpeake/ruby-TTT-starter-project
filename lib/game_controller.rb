@@ -2,11 +2,14 @@
 
 require_relative '../lib/tic_tac_toe'
 require_relative '../lib/user_interface'
+require_relative '../lib/player'
 
 class GameController
   def initialize
     @tictactoe = TicTacToe.new
     @user_interface = UserInterface.new
+    @player_one = Player.new('X')
+    @player_two = Player.new('O')
   end
 
   def display_start_game_text
@@ -31,11 +34,11 @@ class GameController
   end
 
   def get_human_selection(player)
-    @user_interface.request_player_selection(player)
+    @user_interface.request_player_selection(player.marker)
   end
 
   def make_human_turn(player)
-    player_selection = get_human_selection(player).to_i
+    player_selection = player.get_move(get_human_selection(player).to_i)
     case @tictactoe.validate_human_player_selection(player_selection)
     when 1
       @user_interface.display_wrong_integer_error_message
@@ -44,8 +47,8 @@ class GameController
       @user_interface.display_position_not_available_error_message
       make_human_turn(player)
     else
-      @tictactoe.mark_game_board(player, player_selection)
-      @user_interface.display_validated_player_selection(player, player_selection)
+      @tictactoe.mark_game_board(player.marker, player_selection)
+      @user_interface.display_validated_player_selection(player.marker, player_selection)
       @user_interface.display_game_board(@tictactoe.get_game_board)
     end
   end
@@ -79,16 +82,16 @@ class GameController
 
   def human_vs_human_game
     while end_game?(get_winner, get_tie) == false
-      make_human_turn('X')
+      make_human_turn(@player_one)
       break if end_game?(get_winner, get_tie) == true
 
-      make_human_turn('O')
+      make_human_turn(@player_two)
     end
   end
 
   def human_vs_computer_game
     while end_game?(get_winner, get_tie) == false
-      make_human_turn('X')
+      make_human_turn(@player_one)
       break if end_game?(get_winner, get_tie) == true
 
       make_computer_turn('O')
@@ -100,7 +103,7 @@ class GameController
       make_computer_turn('X')
       break if end_game?(get_winner, get_tie) == true
 
-      make_human_turn('O')
+      make_human_turn(@player_two)
     end
   end
 
