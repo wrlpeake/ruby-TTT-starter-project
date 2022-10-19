@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '../lib/tic_tac_toe'
+require_relative '../lib/game_logic'
 require_relative '../lib/user_interface'
 require_relative '../lib/player'
 
 class GameController
   def initialize
-    @tictactoe = TicTacToe.new
+    @game_logic = GameLogic.new
     @user_interface = UserInterface.new
     @player_one = Player.new('X')
     @player_two = Player.new('O')
@@ -15,7 +15,7 @@ class GameController
   def display_start_game_text
     @user_interface.display_welcome_message
     @user_interface.display_instructions
-    @user_interface.display_game_board(@tictactoe.get_game_board)
+    @user_interface.display_game_board(@game_logic.get_game_board)
   end
 
   def get_game_type_selection
@@ -24,7 +24,7 @@ class GameController
 
   def get_game_type
     game_selection = get_game_type_selection.to_i
-    if @tictactoe.validate_game_type_selection(game_selection).zero?
+    if @game_logic.validate_game_type_selection(game_selection).zero?
       @user_interface.display_game_type_error_message
       get_game_type
     else
@@ -40,7 +40,7 @@ class GameController
   def make_human_turn(player)
     selected_cell = get_human_selection(player).to_i
     player_selection = player.get_move(selected_cell)
-    case @tictactoe.validate_human_player_selection(player_selection)
+    case @game_logic.validate_human_player_selection(player_selection)
     when 1
       @user_interface.display_wrong_integer_error_message
       make_human_turn(player)
@@ -48,26 +48,26 @@ class GameController
       @user_interface.display_position_not_available_error_message
       make_human_turn(player)
     else
-      @tictactoe.mark_game_board(player.marker, player_selection)
+      @game_logic.mark_game_board(player.marker, player_selection)
       @user_interface.display_validated_player_selection(player.marker, player_selection)
-      @user_interface.display_game_board(@tictactoe.get_game_board)
+      @user_interface.display_game_board(@game_logic.get_game_board)
     end
   end
 
   def make_computer_turn(player)
-    first_spot = @tictactoe.get_first_spot_available
+    first_spot = @game_logic.get_first_spot_available
     computer_selection = player.get_move(first_spot)
     @user_interface.display_computer_player_selection(player.marker, computer_selection)
-    @tictactoe.mark_game_board(player.marker, computer_selection)
-    @user_interface.display_game_board(@tictactoe.get_game_board)
+    @game_logic.mark_game_board(player.marker, computer_selection)
+    @user_interface.display_game_board(@game_logic.get_game_board)
   end
 
   def get_winner
-    @tictactoe.is_there_a_winner?
+    @game_logic.is_there_a_winner?
   end
 
   def get_tie
-    @tictactoe.get_available_positions == []
+    @game_logic.get_available_positions == []
   end
 
   def end_game?(winner, tie)

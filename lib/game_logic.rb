@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'board'
+require_relative 'player'
 
-class TicTacToe
+class GameLogic
   def initialize(board: Board)
     @board = board.new
   end
@@ -84,5 +85,9 @@ class TicTacToe
     return input_error if (option >= 1 && option <= 4) == false
 
     option
+  end
+
+  def create_player(marker)
+    Player.new(marker)
   end
 end
