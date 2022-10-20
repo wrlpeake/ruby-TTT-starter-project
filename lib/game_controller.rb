@@ -38,7 +38,8 @@ class GameController
   end
 
   def make_human_turn(player)
-    player_selection = player.get_move(get_human_selection(player).to_i)
+    selected_cell = get_human_selection(player).to_i
+    player_selection = player.get_move(selected_cell)
     case @tictactoe.validate_human_player_selection(player_selection)
     when 1
       @user_interface.display_wrong_integer_error_message
@@ -55,8 +56,9 @@ class GameController
 
   def make_computer_turn(player)
     first_spot = @tictactoe.get_first_spot_available
-    @user_interface.display_computer_player_selection(player, first_spot)
-    @tictactoe.mark_game_board(player, first_spot)
+    computer_selection = player.get_move(first_spot)
+    @user_interface.display_computer_player_selection(player.marker, computer_selection)
+    @tictactoe.mark_game_board(player.marker, computer_selection)
     @user_interface.display_game_board(@tictactoe.get_game_board)
   end
 
@@ -94,13 +96,13 @@ class GameController
       make_human_turn(@player_one)
       break if end_game?(get_winner, get_tie) == true
 
-      make_computer_turn('O')
+      make_computer_turn(@player_two)
     end
   end
 
   def computer_vs_human_game
     while end_game?(get_winner, get_tie) == false
-      make_computer_turn('X')
+      make_computer_turn(@player_one)
       break if end_game?(get_winner, get_tie) == true
 
       make_human_turn(@player_two)
@@ -109,10 +111,10 @@ class GameController
 
   def computer_vs_computer_game
     while end_game?(get_winner, get_tie) == false
-      make_computer_turn('X')
+      make_computer_turn(@player_one)
       break if end_game?(get_winner, get_tie) == true
 
-      make_computer_turn('O')
+      make_computer_turn(@player_two)
     end
   end
 
